@@ -48,5 +48,6 @@ augroup dadbod
         \ if s:manage_dbext() && getbufvar('#', 'dbext_buffer_defaulted') |
         \   call setbufvar('#', 'dbext_buffer_defaulted', "0-by-dadbod") |
         \ endif
-  autocmd BufReadPost *.dbout setlocal tabstop=8
+  autocmd BufReadPost *.dbout setlocal tabstop=8 
+  autocmd BufReadPost *.dbout setlocal nowinfixheight
 augroup END
