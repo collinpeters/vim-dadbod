@@ -10,7 +10,7 @@ endfunction
 
 function! db#adapter#postgresql#interactive(url, ...) abort
   let short = matchstr(a:url, '^[^:]*:\%(///\)\=\zs[^/?#]*$')
-  return ['psql', '-w'] + (a:0 ? a:1 : []) + ['--dbname', len(short) ? short : a:url]
+  return ['psql', '-w', '--quiet'] + (a:0 ? a:1 : []) + ['--dbname', len(short) ? short : a:url]
 endfunction
 
 function! db#adapter#postgresql#filter(url) abort
