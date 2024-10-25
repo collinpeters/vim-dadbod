@@ -26,7 +26,7 @@ USAGE                                           *dadbod* *:DB*
                         |g:dadbod_manage_dbext|.
 
 In the preview window, you can press "R" to rerun, "r" to interactively rerun,
-or "q" to close the window.
+or "gq" to close the window.
 
 URLS                                            *dadbod-urls*
 
@@ -81,6 +81,20 @@ Handling these parameters is up to the individual adapters.  By default,
 unrecognized parameters are ignored.  Pass Boolean parameters as the literal
 strings "true" and "false" (e.g., `?ssl=true`).
 
+                                                *dadbod-bigquery*
+bigquery ~
+>
+    bigquery:[<project_id>[:<dataset_id>]][?...]
+    bigquery:?project_id=<project_id>&dataset_id=<dataset_id>[&...]
+<
+
+The first form of the URL assumes your default dataset belongs to your default
+project.  If it doesn't, use the second form.
+
+Additional query parameters can be any valid global flag, for example,
+`&disable_ssl_validation=true`.  Subcommand flags are not supported as query
+parameters, but they can be specified in `~/.bigqueryrc`.
+
                                                 *dadbod-dbext*
 dbext ~
 >
@@ -96,6 +110,16 @@ ClickHouse ~
     clickhouse:[database]
 <
 Use the `secure` query parameter to enable TLS.
+
+                                                *dadbod-duckdb*
+DuckDB ~
+>
+    duckdb:relative/path
+    duckdb:/absolute/path
+    duckdb:C:/windows/path
+<
+An empty path portion uses an in-memory database, which is occasionally useful
+for an interactive invocation.
 
                                                 *dadbod-impala*
 Impala ~
@@ -169,14 +193,24 @@ Redis ~
 Redis doesn't have a username, so use a dummy one in the URL if a password is
 required.
 
+                                                *dadbod-snowflake*
+Snowflake ~
+>
+    snowflake://[<user>[:<password>]@[<accountname>]]/[<database>]
+<
+Query parameters can be used to set additional command line options (e.g.,
+`?warehouse=foo`).
+
                                                 *dadbod-sqlserver*
 SQL Server ~
 >
     sqlserver://[<user>[:<password>]@][<host>][:<port>]/[<database>]
     sqlserver://[<host>[:<port>]][;user=<user>][;...]
 <
-Supported query parameters are `secure` and `trustServerCertificate`, which
-correspond to connection properties of the same name.
+Supported query parameters are `authentication`, `secure` and
+`trustServerCertificate`, which correspond to connection properties of the
+same name. The `authentication` property is only supported when using
+`go-sqlcmd`.
 
 To set the `integratedSecurity` connection property and use a trusted
 connection, omit the user and password.
